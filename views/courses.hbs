@@ -1,0 +1,10 @@
+<main class="container">
+<h1>Courses</h1>
+{{#each courses}}
+<div class="card shadow p-2 my-2 col-12 courses-card">
+    <h3>Name: {{name}}</h3>
+    <p>Subject Area: {{subjectArea}}</p>
+    <a href="{{link}}">Learn More</a>
+</div>
+{{/each}}
+</main>
