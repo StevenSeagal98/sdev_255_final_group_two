@@ -1,27 +1,13 @@
-const { MongoClient, ServerApiVersion } = require('mongodb')
-const uri = `mongodb+srv://nate_orona98:${process.env.MONGO_PASSWORD}@grouptwofinalproject.cdtbhki.mongodb.net/?retryWrites=true&w=majority`
+// module.exports = { run, client }
+// // env: MONGODB_URI=mongodb+srv://sdev255:group2@sdev255.cr2wps4.mongodb.net/
+// // Cass: dr4F5Aic963rqtRQ - cassandra
+// // Poulis: ZN7lnY25fdFbAV1K - poulis
 
-const client = new MongoClient(uri, {
-    serverApi: {
-        version: ServerApiVersion.v1,
-        strict: true,
-        deprecationErrors: true
-    }
-})
+const mongoose = require('mongoose')
+const uri = process.env.MONGODB_URI
 
-const run = async () => {
-    try {
-        await client.connect()
-        const ping = await client.db('admin').command({ ping: 1 })
-        console.log('CONNECTED TO DB: ', ping)
-    } catch(err) {
-        console.error(`ERROR CONNECTING TO DB: ${err}`)
-    } finally {
-        console.log('CLOSING DB CONNECTION')
-        await client.close()
-    }
-}
+const connection = mongoose.connect(uri)
+    .then(() => console.log('Connected to MongoDB'))
+    .catch(err => console.error(`Error connecting to MongoDB: ${err}`))
 
-module.exports = { run, client }
-// Cass: dr4F5Aic963rqtRQ - cassandra
-// Poulis: ZN7lnY25fdFbAV1K - poulis
+module.exports = connection
