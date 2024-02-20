@@ -4,6 +4,8 @@
 :root {
     --light: #f2f2f2;
     --dark: #212121;
+    --ivy-green: #006648;
+    --ivy-green-light: #8dc63f;
 }
 
 /*Base Styles*/
@@ -49,5 +51,7 @@ h1, h2, h3, h4, h5, h6 {
     background-size: cover;
     background-position: center;
     color: var(--light);
+    min-height: 50vh;
 }
+/*End Home Page*/
 /*End Pages*/
