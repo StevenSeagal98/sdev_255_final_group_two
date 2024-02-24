@@ -1,6 +1,7 @@
 const express = require('express')
 const handlebars = require('express-handlebars')
 const path = require('path')
+const { Course } = require('./models/courses');
 require('dotenv').config()
 
 const app = express()
@@ -28,6 +29,29 @@ require('./db/db')
 
 //Routes
 app.use('/', require('./routes'))
+app.post('/courses', (req, res) => {
+    const course = new Course(req.body);
+
+    course.save()
+        .then((result) => {
+            res.redirect()
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+})
+
+app.delete('/courses/:id', (req, res) => {
+    const id = req.params.id;
+    
+    Course.findByIdAndDelete(id)
+      .then(result => {
+        res.json({ redirect: '/courses' });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  });
 
 //Start Server
 const port = process.env.PORT || 5555
