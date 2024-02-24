@@ -4,6 +4,6 @@ const coursesRouter = require('express').Router()
 coursesRouter.get('/:courseId?', get)
 coursesRouter.post('/', post)
 coursesRouter.put('/', put)
-coursesRouter.delete('/', del)
+coursesRouter.delete('/courses/{{this._id}}', del)
 
 module.exports = coursesRouter
