@@ -19,6 +19,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    background-color: rgb(104, 160, 123);
 }
 
 main {
@@ -51,7 +52,20 @@ h1, h2, h3, h4, h5, h6 {
     background-size: cover;
     background-position: center;
     color: var(--light);
-    min-height: 50vh;
+    min-height: 100vh;
 }
+
+/* Modify the background color */
+.navbar-custom {
+    background-color: #006400 !important; /* dark green */
+}
+
+/* Modify the text color */
+.navbar-custom .navbar-brand,
+.navbar-custom .navbar-text,
+.navbar-custom .nav-link {
+    color: #ffffff !important; /* white */
+}
+
 /*End Home Page*/
 /*End Pages*/
