@@ -36,26 +36,32 @@ const createCourse = async (data) => {
     return success
 }
 
-const updateCourse = async ({ name = null, description = null, subjectArea = null, credits = null }) => {
-    let success = false
-    if(![name, description, subjectArea, credits].every(prop => prop || prop === 0)) return success
+const updateCourse = async (courseId, updateData) => {
     try {
-
-    } catch(err) {
-        console.error(`ERROR UPDATING COURSE: ${err} ${JSON.stringify(data)}`)
+      const updatedCourse = await Course.findOneAndUpdate(
+        { _id: courseId }, 
+        updateData, 
+        { new: true }
+      );
+      return updatedCourse;
+    } catch (error) {
+      console.error("Error updating course:", error);
+      throw error;
     }
+  }  
+
+  const deleteCourse = async (courseId) => {
+    let success = false;
+    if (!courseId) return success;
+    try {
+        const result = await Course.findByIdAndDelete(courseId);
+        if (result) success = true;
+    } catch (err) {
+        console.error(`ERROR DELETING COURSE: ${err}`);
+    }
+    return success;
 }
 
-const deleteCourse = async ({ courseId = null }) => {
-    let success = false
-    if(!courseId) return success
-    try {
-
-    } catch(err) {
-        console.error(`ERROR DELETING COURSE: ${err} ${JSON.stringify(data)}`)
-    }
-    return success
-}
 
 const getCourses = async (courseId = null) => {
     let courses = []
@@ -81,4 +87,4 @@ const getCourses = async (courseId = null) => {
     }) : []
 }
 
-module.exports = { createCourse, getCourses, updateCourse, deleteCourse }
+module.exports = { Course, createCourse, getCourses, updateCourse, deleteCourse };
