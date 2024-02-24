@@ -1,10 +1,27 @@
 <main class="container">
-<h1>Courses</h1>
-{{#each courses}}
-<div class="card shadow p-2 my-2 col-12 courses-card">
-    <h3>Name: {{name}}</h3>
-    <p>Subject Area: {{subjectArea}}</p>
-    <a href="{{link}}">Learn More</a>
-</div>
-{{/each}}
+  <h1>Courses</h1>
+  {{#each courses}}
+    <div>
+      <h2>{{this.name}}</h2>
+      <p>{{this.description}}</p>
+      <a href="/courses/{{this._id}}">Learn More</a>
+      <a href="/courses/update/{{this._id}}">Update Course</a>
+      <a href="#" class="delete" data-doc="{{this._id}}">Delete</a>
+    </div>
+  {{/each}}
+  <script>
+    document.querySelectorAll('a.delete').forEach(trashcan => {
+      trashcan.addEventListener('click', (e) => {
+        e.preventDefault();
+        const endpoint = `/courses/${trashcan.dataset.doc}`;
+
+        fetch(endpoint, {
+          method: 'DELETE',
+        })
+        .then(response => response.json())
+        .then(data => window.location.href = data.redirect)
+        .catch(err => console.log(err));
+      });
+    });
+  </script>
 </main>
