@@ -28,7 +28,6 @@ const createCourse = async (data) => {
     const course = new Course({ name, description, subjectArea, credits })
     try {
         const res = await course.save()
-        console.log('Res: ', res)
         if(res) success = true
     } catch(err) {
         console.error(`ERROR SAVING COURSE: ${err} ${JSON.stringify(data)}`)
@@ -36,19 +35,35 @@ const createCourse = async (data) => {
     return success
 }
 
-const updateCourse = async (courseId, updateData) => {
+const updateCourse = async (data) => {
+    let success = false
     try {
-      const updatedCourse = await Course.findOneAndUpdate(
-        { _id: courseId }, 
-        updateData, 
-        { new: true }
-      );
-      return updatedCourse;
+        const { 
+            id = null, 
+            name = null,
+            description = null, 
+            area = null, 
+            credits = null 
+        } = data
+        console.log('Data in updateCourse: ', data)
+        console.log(id, name, description, area, credits)
+        if([id, name, description, area, credits].includes(null)) {
+            console.log('Missing data in updateCourse')
+            return success
+        }
+        console.log('Course id in updateCourse: ', id)
+        const updateReq = await Course.findByIdAndUpdate(
+            { _id: id },
+            { name, description, area, credits },
+            { new: true }
+        )
+        console.log('Update request: ', updateReq)
+        if(updateReq) success = true
     } catch (error) {
-      console.error("Error updating course:", error);
-      throw error;
+        console.error(`Error updating course: ${err}`)
     }
-  }  
+    return success
+}
 
   const deleteCourse = async (courseId) => {
     let success = false;
@@ -62,18 +77,12 @@ const updateCourse = async (courseId, updateData) => {
     return success;
 }
 
-
 const getCourses = async (courseId = null) => {
     let courses = []
-    console.log('Course id in getCourses: ', courseId)
     try {
-        console.log('Course id: ', courseId)
         if(typeof courseId == 'string') {
-            console.log('Is string, finding one by id: ', courseId)
             courses.push(await Course.findOne({ _id: courseId }))
-            console.log('Courses: ', courses)
         } else {
-            console.log('Is not string, finding all')
             courses.push(...await Course.find())
         }
     } catch(err) {
@@ -87,4 +96,4 @@ const getCourses = async (courseId = null) => {
     }) : []
 }
 
-module.exports = { Course, createCourse, getCourses, updateCourse, deleteCourse };
+module.exports = { Course, createCourse, getCourses, updateCourse, deleteCourse }
