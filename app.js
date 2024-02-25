@@ -19,10 +19,10 @@ app.engine('hbs', handlebars.engine({
 }))
 
 const hbs = handlebars.create({})
+hbs.handlebars.registerHelper('ifEquals', (arg, argTwo) => arg == argTwo)
 hbs.handlebars.registerPartial('nav', '{{{nav}}}')
 hbs.handlebars.registerPartial('footer', '{{{footer}}}')
 hbs.handlebars.registerPartial('course', '{{{course}}}')
-hbs.handlebars.registerPartial('poulis', '{{{poulis-partial}}}')
 
 //DB Connection
 require('./db/db')
@@ -31,7 +31,6 @@ require('./db/db')
 app.use('/', require('./routes'))
 app.post('/courses', (req, res) => {
     const course = new Course(req.body);
-
     course.save()
         .then((result) => {
             res.redirect()

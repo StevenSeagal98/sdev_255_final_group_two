@@ -1,12 +1,12 @@
-<main class="container">
-  <h1>Courses</h1>
+<main class="container py-4">
+  <h1 class="my-2">Courses</h1>
   {{#each courses}}
-    <div>
-      <h2>{{this.name}}</h2>
+    <div class="my-2 p-2 border bg-light rounded shadow">
+      <h3>{{this.name}}</h3>
       <p>{{this.description}}</p>
-      <a href="/courses/{{this._id}}">Learn More</a>
-      <a href="/courses/update/{{this._id}}">Update Course</a>
-      <a href="#" class="delete" data-doc="{{this._id}}">Delete</a>
+      <a class="btn btn-dark" href="/courses/{{this._id}}">Learn More</a>
+      <a class="btn btn-warning update" href="/courses/{{this._id}}?updating=true">Update Course</a>
+      <a class="btn btn-danger" href="#" class="delete" data-doc="{{this._id}}">Delete</a>
     </div>
   {{/each}}
   <script>
