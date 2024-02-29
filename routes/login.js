@@ -1,8 +1,7 @@
-const { get, post } = require('../controllers/login')
-const loginRouter = require('express').Router()
+const { get, post } = require('../controllers/login'),
+      loginRouter = require('express').Router()
 
-loginRouter
-    .get('/', get)
-    .post('/', post)
+loginRouter.get('/', get)
+loginRouter.post('/', post)
 
 module.exports = loginRouter

@@ -1,1 +1,12 @@
-<h1>Dashboard</h1>
+<div class="container">
+    <h1>Dashboard</h1>
+
+    {{#if user}}
+        <p>{{ user }}</p>
+        <p>Username: {{ user.username }}</p>
+        <p>Email: {{ user.email }} </p>
+        <p>Name: {{ user.firstName }} {{ user.lastName }}</p>
+        <p>Role: {{ user.role }}</p>
+        <p>Courses: </p>
+    {{/if}}
+</div>

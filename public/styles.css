@@ -31,6 +31,12 @@ footer {
 }
 /*End Base Styles*/
 
+/*Forms*/
+.form-group {
+    margin: 1rem 0;
+}
+/*End Forms*/
+
 /*Text*/
 * {
     font-family: 'Raleway', sans-serif;
