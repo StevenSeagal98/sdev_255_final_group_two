@@ -1,1 +1,18 @@
-<h1>Dashboard</h1>
+<div class="container py-4">
+    <h1>Dashboard</h1>
+    {{#if isInstructor}}
+        <h1>Instructor Dashboard</h1>
+        <p>Username: {{ user.username }}</p>
+        <p>Email: {{ user.email }} </p>
+        <p>Name: {{ user.firstName }} {{ user.lastName }}</p>
+        <p>Role: {{ user.role }}</p>
+        <p>Courses: </p>
+    {{else}}
+        <h1>Student Dashboard</h1>
+        <p>Username: {{ user.username }}</p>
+        <p>Email: {{ user.email }} </p>
+        <p>Name: {{ user.firstName }} {{ user.lastName }}</p>
+        <p>Role: {{ user.role }}</p>
+        <p>Courses: </p>
+    {{/if}}
+</div>

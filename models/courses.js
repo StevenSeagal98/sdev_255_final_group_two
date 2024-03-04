@@ -65,7 +65,7 @@ const updateCourse = async (data) => {
     return success
 }
 
-  const deleteCourse = async (courseId) => {
+const deleteCourse = async (courseId) => {
     let success = false;
     if (!courseId) return success;
     try {
