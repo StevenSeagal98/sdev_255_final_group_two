@@ -5,6 +5,13 @@
         <p>{{course.description}}</p>
         <p>Subject Area: {{course.subjectArea}}</p>
         <p>Credits: {{course.credits}}</p>
+      {{#if isInstructor}}
+        Instructor
+        <a class="btn btn-warning update" href="/courses/{{this._id}}?updating=true">Update Course</a>
+        <a class="btn btn-danger delete" href="#" data-doc="{{this._id}}">Delete</a>
+      {{else if isStudent}}
+      <a class="btn btn-primary" href="/users/add-course/{{this._id}}">Enroll</a>
+      {{/if}}
         <a href="{{course.registerLink}}">Register</a>
         <a href="/courses">All Courses</a>
     </section>

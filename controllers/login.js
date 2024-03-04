@@ -1,4 +1,4 @@
-const { getUser } = require('../models/user'),
+const { getUser, deleteAllUsers } = require('../models/user'),
       bcrypt = require('bcrypt')
 
 const loginController = {
@@ -11,13 +11,11 @@ const loginController = {
         }
         const user = await getUser(null, email)
         if(!user || !bcrypt.compareSync(password, user.password)) {
-            console.log('Passwords dont match')
-            console.log('User: ', user)
             return res.render('login', { errMessage: 'Invalid username or password' })
         }
         console.log('Successfully logged in user: ', user)
         req.session.user = user
-        res.render('dashboard', { user })
+        res.redirect('/dashboard')
     }
 }
 

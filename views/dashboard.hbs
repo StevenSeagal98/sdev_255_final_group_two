@@ -1,18 +1,14 @@
-<div class="container">
+<div class="container py-4">
     <h1>Dashboard</h1>
-
-    {{#if user.role "===" "instructor"}}
+    {{#if isInstructor}}
         <h1>Instructor Dashboard</h1>
-        <p>{{ user }}</p>
         <p>Username: {{ user.username }}</p>
         <p>Email: {{ user.email }} </p>
         <p>Name: {{ user.firstName }} {{ user.lastName }}</p>
         <p>Role: {{ user.role }}</p>
         <p>Courses: </p>
-    {{/if}}
-    {{#if user.role "===" "student"}}
+    {{else}}
         <h1>Student Dashboard</h1>
-        <p>{{ user }}</p>
         <p>Username: {{ user.username }}</p>
         <p>Email: {{ user.email }} </p>
         <p>Name: {{ user.firstName }} {{ user.lastName }}</p>

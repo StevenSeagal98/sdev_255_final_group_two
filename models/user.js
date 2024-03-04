@@ -35,6 +35,9 @@ const userSchema = new mongoose.Schema({
     }
 })
 
+// Courses added to student
+// Protect routes based on role
+
 const User = mongoose.model('User', userSchema)
 
 const getUser = async (username, email) => {
@@ -42,7 +45,7 @@ const getUser = async (username, email) => {
     if(!username && !email) return user
     console.log('Username, email: ', username, email)
     try {
-        username ? user = await User.findOne({ username }) : user = await User.findOne({ email })
+        user = await User.findOne(username ? { username } : { email })
         console.log('User in model: ', user)
     } catch(err) {
         console.error(`ERROR GETTING USER: ${err}`)
@@ -51,7 +54,7 @@ const getUser = async (username, email) => {
 }
 
 const createUser = async (userData) => {
-    let success = false, errMessage = 'User already exists, please pick a different username.'
+    let success = false, errMessage = 'User already exists, please try again.'
     const {
         username = null,
         password = null,
@@ -60,7 +63,6 @@ const createUser = async (userData) => {
         lastName = null,
         email = null
     } = userData
-    console.log('Username: ', username, 'Email: ', email, 'Password: ', password, 'Role: ', role, 'First name: ', firstName, 'Last name: ', lastName)
     if (!username || !password || !role || !email || await getUser(username) !== null) {
         return {
             success,
@@ -75,7 +77,8 @@ const createUser = async (userData) => {
             password: hashedPassword,
             role,
             firstName,
-            lastName
+            lastName,
+            courses: []
         })
         console.log('New user: ', newUser)
         const save = await newUser.save()
@@ -91,4 +94,27 @@ const createUser = async (userData) => {
     return { success, errMessage }
 }
 
-module.exports = { getUser, createUser }
+const updateUserCourses = async (courseId, user, isAdding) => {
+    let success = false
+    if(!courseId || !user) return success
+    try {
+        const action = isAdding ? { $push: { courses: courseId } } : { $pull: { courses: courseId } }
+        const { username } = user
+        const dbReq = await User.findOneAndUpdate(username, action, { new: true })
+        if(dbReq) success = true
+    } catch(err) {
+        console.error(`ERROR ADDING COURSE TO USER: ${err}`)
+    }
+    return success
+}
+
+const deleteAllUsers = async () => {
+    try {
+        // For testing
+        await User.deleteMany()
+    } catch(err) {
+        console.error(`ERROR DELETING USERS: ${err}`)
+    }
+}
+
+module.exports = { getUser, createUser, updateUserCourses, deleteAllUsers }

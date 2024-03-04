@@ -5,5 +5,6 @@ coursesRouter.get('/:courseId?', get)
 coursesRouter.post('/', post)
 coursesRouter.put('/', put)
 coursesRouter.delete('/courses/{{this._id}}', del)
+coursesRouter.post('/user')
 
 module.exports = coursesRouter
