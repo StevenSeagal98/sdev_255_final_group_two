@@ -3,6 +3,7 @@ const handlebars = require('express-handlebars')
 const path = require('path')
 const { Course } = require('./models/courses')
 const session = require('express-session')
+const MongoStore = require('connect-mongodb-session')(session)
 require('dotenv').config()
 
 const app = express()
@@ -32,6 +33,23 @@ hbs.handlebars.registerPartial('course', '{{{course}}}')
 
 //DB Connection
 require('./db/db')
+
+const store = new MongoStore({
+    uri: process.env.MONGODB_URI,
+    collection: 'sessions'
+})
+
+store.on('error', err => console.log(`ERROR CONNECTING TO MONGO: ${err}`))
+
+app.use(session({
+    secret: 'your-secret-key',
+    resave: false,
+    saveUninitialized: false,
+    store: store,
+    cookie: {
+        maxAge: 1000 * 60 * 60 * 24 // 1 day
+    }
+}))
 
 //Routes
 app.use('/', require('./routes'))
