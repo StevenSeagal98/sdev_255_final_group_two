@@ -3,16 +3,17 @@ const { getCourses, createCourse, updateCourse, deleteCourse } = require('../mod
 const coursesController = {
     get: async (req, res) => {
         let data = []
-        const courseId = req.params?.courseId
-        console.log(req.params)
-        console.log('Course id: ', courseId)
+        const courseId = req.params?.courseId,
+              { user = {} } = req?.session,
+              isInstructor = user?.role === 'instructor',
+              isStudent = user?.role !== 'instructor'
         try {
             data = typeof courseId == 'string' ? await getCourses(courseId) : await getCourses()
         } catch(err) {
             console.error(`ERROR GETTING COURSES IN CONTROLLER: ${err}`)
         }
         if(req.query?.updating) return res.render('updateCourse', { course: data[0] })
-        return courseId ? res.render('singleCourse', { course: data[0] }) : res.render('courses', { courses: data })
+        return courseId ? res.render('singleCourse', { course: data[0], user, isInstructor, isStudent }) : res.render('courses', { courses: data, user, isInstructor, isStudent })
     },
     post: async (req, res) => {
         try {

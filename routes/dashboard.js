@@ -1,5 +1,6 @@
+const { get } = require('../controllers/dashboard')
 const dashboardRouter = require('express').Router()
 
-dashboardRouter.get('/', (req, res) => res.render('dashboard'))
+dashboardRouter.get('/', get)
 
 module.exports = dashboardRouter
