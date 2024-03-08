@@ -8,18 +8,18 @@
         <p>Role: {{ user.role }}</p>
         <p>Courses:</p>
     {{else}}
-        <h1>Student Dashboard</h1>
-        <p>Username: {{ user.username }}</p>
-        <p>Email: {{ user.email }}</p>
-        <p>Name: {{ user.firstName }} {{ user.lastName }}</p>
-        <p>Role: {{ user.role }}</p>
-        <p>Courses:</p>
+        
     {{/if}}
 
     <div class="container-fluid">
         <div class="row content">
             <div class="col-sm-3 sidenav" style="height: 900px;">
-                <h2>UT Dallas Course Registration</h2>
+                <h1>Student Dashboard</h1>
+        <p>Username: {{ user.username }}</p>
+        <p>Email: {{ user.email }}</p>
+        <p>Name: {{ user.firstName }} {{ user.lastName }}</p>
+        <p>Role: {{ user.role }}</p>
+        <p>Courses:</p>
                 <ul class="nav nav-pills nav-stacked">
                     <li class="active"><a href="#">Home</a></li>
                     <li><a href="enroll.hbs">Enroll Course</a></li>
