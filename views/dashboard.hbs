@@ -6,7 +6,7 @@
         <p>Email: {{ user.email }} </p>
         <p>Name: {{ user.firstName }} {{ user.lastName }}</p>
         <p>Role: {{ user.role }}</p>
-        <p>Courses: </p>
+        <p>Courses:</p>
     {{else}}
         <h1>Student Dashboard</h1>
         <p>Username: {{ user.username }}</p>
@@ -14,5 +14,12 @@
         <p>Name: {{ user.firstName }} {{ user.lastName }}</p>
         <p>Role: {{ user.role }}</p>
         <p>Courses: </p>
+                {{#each user.courses}}
+            <div class="my-2 p-2 border bg-light rounded shadow">
+                <h3>{{this.name}}</h3>
+                <p>{{this.description}}</p>
+                <a class="btn btn-dark" href="/courses/{{this._id}}">Learn More</a>
+            </div>
+        {{/each}}
     {{/if}}
 </div>

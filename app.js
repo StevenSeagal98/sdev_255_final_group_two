@@ -50,7 +50,7 @@ app.use(session({
         maxAge: 1000 * 60 * 60 * 24 // 1 day
     }
 }))
-
+app.use(express.json())
 //Routes
 app.use('/', require('./routes'))
 app.post('/courses', (req, res) => {
