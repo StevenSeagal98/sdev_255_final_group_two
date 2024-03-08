@@ -13,14 +13,14 @@
 
     <div class="container-fluid">
         <div class="row content">
-            <h2>Student Dashboard</h2>
+        <h2>Student Dashboard</h2>
         <p>Username: {{ user.username }}</p>
         <p>Email: {{ user.email }}</p>
         <p>Name: {{ user.firstName }} {{ user.lastName }}</p>
         <p>Role: {{ user.role }}</p>
         <p>Courses:</p>
-            <div class="nav flex-column">
-                <ul class="nav nav-pills nav-stacked">
+            <div class="col-sm-3 sidenav" style="height: 900px;">
+                <ul class="nav flex-column">
                     <li class="active"><a href="#">Home</a></li>
                     <li><a href="enroll.hbs">Enroll Course</a></li>
                     <li><a href="dropCourse.hbs">Drop Course</a></li>
