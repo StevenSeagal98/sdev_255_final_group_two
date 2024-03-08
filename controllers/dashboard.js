@@ -19,7 +19,7 @@ const dashboardController = {
             
             const navigationItems = [
                 { label: 'Home', url: '#' },
-                { label: 'Enroll Course', url: './dashboard/enroll.hbs' },
+                { label: 'Enroll Course', url: 'enroll.hbs' },
                 { label: 'Drop Course', url: '/dashboard/dropCourse.hbs' },
                 { label: 'Enrolled Courses', url: '/dashboard/schedule.hbs' },
                 { label: 'Course Cart', url: '/dashboard/cart.hbs' },

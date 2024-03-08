@@ -8,5 +8,7 @@ router.use('/logout', require('./logout'))
 router.use('/register', require('./register'))
 router.use('/dashboard', require('./dashboard'))
 router.use('/user-courses', require('./userCourses'))
+router.use('/enroll', require('./enroll'))
+router.use('/dropCourse', require('./dropCourse.hbs'))
 
 module.exports = router
