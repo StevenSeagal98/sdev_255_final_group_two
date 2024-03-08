@@ -12,37 +12,27 @@
       </ul><br>
     </div>
 
-    <div class="col-sm-9" style="background-color:white">
+ <div class="col-sm-9" style="background-color:white">
 	<br>
 	<br>
 	<div class='container' style='width:100%;'>
-	
-		<div class="field-wrap">
-			<label>
-              Department:<span class="req"></span>
-            </label>
-            <input id="department" list="departments" required autocomplete="off" name="department">
-					<datalist id="">
-					
-					</datalist>
-		</div>
-		<br>
-		<br>
-		<table id='theTable' class='display' style='width:100%;'>
+		<button type="button" onclick="return buttonClicked()">Delete Row</button>
+		</br></br>
+		<table id='theTable' class='display'>
 			<thead>
 			  <tr>
-				<th class='col-7'>Course Id</th>
-				<th class='col-7'>Course Name</th>
-				<th class='col-7'>Description</th>
-				<th class="col-5">Status</th>
+				<th class='col-5'>Course Id</th>
+				<th class='col-5'>Course Name</th>
+				<th class='col-5'>Description</th>
+				<th class='col-5'>Available Seats</th>
+				<th class='col-5'>Status</th>
 			  </tr>
 			</thead>
 		</table>
-		<br>
-		<br>
-		<button type="button" onclick="return buttonClicked()">Add to Cart</button>
 	</div>	
+	
 	 <br><br>
+	 <button type="button" class="button button2" onclick="return registerClicked()">Register</button>
     </div>
   </div>
 </div>
