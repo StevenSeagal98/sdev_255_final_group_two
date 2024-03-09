@@ -1,0 +1,50 @@
+<div class="container-fluid">
+    <div class="row content">
+        <!-- Left Column -->
+        <div class="col-sm-3 sidenav">
+            <h2>Student Dashboard</h2>
+            <p>Username: {{ user.username }}</p>
+            <p>Email: {{ user.email }}</p>
+            <p>Name: {{ user.firstName }} {{ user.lastName }}</p>
+            <p>Role: {{ user.role }}</p>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="/courses">Courses</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/cart">Cart</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Right Column -->
+        <div class="col-sm-9 bg-white">
+            <h2>Enrolled Courses:</h2>
+            {{#each user.courses}}
+                <div class="my-2 p-2 border bg-light rounded shadow">
+                    <h3>{{this.name}}</h3>
+                    <p>{{this.description}}</p>
+                    <a class="btn btn-dark" href="/courses/{{this._id}}">Learn More</a>
+                </div>
+            {{/each}}
+        </div>
+    </div>
+</div>
+
+<button type="button" class="button button2" onclick="return registerClicked()">Register</button>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script>
+    
+    $(document).on('click', '.add-to-cart', function() {
+        const courseId = $(this).data('course-id');
+        console.log(`Course ${courseId} added to cart.`);
+    });
+</script>
+
+
+
+
