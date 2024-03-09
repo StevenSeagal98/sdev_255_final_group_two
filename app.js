@@ -6,6 +6,7 @@ const session = require('express-session')
 const MongoStore = require('connect-mongodb-session')(session)
 require('dotenv').config()
 
+
 const app = express()
 
 app.use(express.static(path.join(__dirname, 'public')))
@@ -76,6 +77,9 @@ app.delete('/courses/:id', (req, res) => {
       });
   });
 
-//Start Server
-const port = process.env.PORT || 5555
+  app.get('/', (req, res) => {
+    res.redirect('/dashboard/enroll');
+  }); 
+
+
 app.listen(port, () => console.log(`Server is running on port ${port}`))
