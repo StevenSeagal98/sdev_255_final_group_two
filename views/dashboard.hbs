@@ -1,5 +1,4 @@
 <div class="container py-4">
-<!-- Dashboard.hbs -->
 <div class="container py-4">
     {{#if isInstructor}}
         <h1>Instructor Dashboard</h1>
@@ -10,14 +9,14 @@
         <p>Courses:</p>
     {{else}}
     <div class="container-fluid">
-        <div class="row content">
+        <div class="row content" style='height: 600px'>
         <h2>Student Dashboard</h2>
         <p>Username: {{ user.username }}</p>
         <p>Email: {{ user.email }}</p>
         <p>Name: {{ user.firstName }} {{ user.lastName }}</p>
         <p>Role: {{ user.role }}</p>
         <p>Courses:</p>
-            <div class="col-sm-3 sidenav" style="height: 900px;">
+            <div class="col-sm-3 sidenav" style="height: 900px; background-color: #f1f1f1;" style=height: 100%>
                 <ul class="nav flex-column">
                     <li class="active"><a href="#">Home</a></li>
                     <li class="nav-item"><a href="/enroll">Enroll Course</a></li>
@@ -49,7 +48,7 @@
 
 <style>
     /* Set height of the grid so .sidenav can be 100% (adjust if needed) */
-    .row.content {height: 600px}
+    .row.content {}
 
     /* Set gray background color and 100% height */
     .sidenav {
