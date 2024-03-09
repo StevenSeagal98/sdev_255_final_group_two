@@ -76,6 +76,14 @@ app.delete('/courses/:id', (req, res) => {
       });
   });
 
+  const express = require('express');
+const app = express();
+
+// Import your dashboard routes
+const dashboardRoutes = require('./dashboard/enroll.hbs'); // Adjust the path
+
+// Use the dashboard routes
+app.use('/dashboard', dashboardRoutes);
 //Start Server
 const port = process.env.PORT || 5555
 app.listen(port, () => console.log(`Server is running on port ${port}`))
