@@ -6,15 +6,11 @@ const session = require('express-session')
 const MongoStore = require('connect-mongodb-session')(session)
 require('dotenv').config()
 
+
 const app = express()
 
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.urlencoded({ extended: true }))
-app.use(session({
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false
-}))
 
 //Handlebars - html templating setup
 app.set('view engine', 'hbs')
@@ -42,40 +38,44 @@ const store = new MongoStore({
 store.on('error', err => console.log(`ERROR CONNECTING TO MONGO: ${err}`))
 
 app.use(session({
-    secret: 'your-secret-key',
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    store: store,
+    store,
     cookie: {
         maxAge: 1000 * 60 * 60 * 24 // 1 day
     }
 }))
 app.use(express.json())
 //Routes
-app.use('/', require('./routes'))
-app.post('/courses', (req, res) => {
-    const course = new Course(req.body);
-    course.save()
-        .then((result) => {
-            res.redirect()
-        })
-        .catch((err) => {
-            console.log(err)
-        })
-})
+// app.post('/courses', (req, res) => {
+//   const course = new Course(req.body);
+//   course.save()
+//       .then((result) => {
+//           res.redirect()
+//       })
+//       .catch((err) => {
+//           console.log(err)
+//       })
+// })
 
 app.delete('/courses/:id', (req, res) => {
-    const id = req.params.id;
-    
-    Course.findByIdAndDelete(id)
-      .then(result => {
-        res.json({ redirect: '/courses' });
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  });
+  const id = req.params.id
+  
+  Course.findByIdAndDelete(id)
+    .then(result => {
+      res.json({ redirect: '/courses' });
+    })
+    .catch(err => {
+      console.log(err);
+    })
+})
+app.use('/', require('./routes'))
 
-//Start Server
+
+app.get('/', (req, res) => {
+  res.redirect('/dashboard/enroll')
+})
+
 const port = process.env.PORT || 5555
 app.listen(port, () => console.log(`Server is running on port ${port}`))
