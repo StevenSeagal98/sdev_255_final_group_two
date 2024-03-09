@@ -1,4 +1,4 @@
-const { get } = require('../controllers/dashboard')
+const { get, enroll, dropCourse, logout } = require('../controllers/dashboard')
 const dashboardRouter = require('express').Router()
 
 dashboardRouter.get('/', get)
