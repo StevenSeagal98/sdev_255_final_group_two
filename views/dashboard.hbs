@@ -1,5 +1,4 @@
 <div class="container py-4">
-<div class="container py-4">
     {{#if isInstructor}}
         <h1>Instructor Dashboard</h1>
         <p>Username: {{ user.username }}</p>
@@ -8,20 +7,29 @@
         <p>Role: {{ user.role }}</p>
         <p>Courses:</p>
     {{else}}
-    <div class="container-fluid">
-        <div class="row content" style='height: 600px'>
-        <h2>Student Dashboard 123</h2>
-        <p>Username: {{ user.username }}</p>
-        <p>Email: {{ user.email }}</p>
-        <p>Name: {{ user.firstName }} {{ user.lastName }}</p>
-        <p>Role: {{ user.role }}</p>
-        <p>Courses: </p>
-                {{#each user.courses}}
-            <div class="my-2 p-2 border bg-light rounded shadow">
-                <h3>{{this.name}}</h3>
-                <p>{{this.description}}</p>
-                <a class="btn btn-dark" href="/courses/{{this._id}}">Learn More</a>
+        <div class="container-fluid">
+            <div class="row content">
+                <!-- Left Column -->
+                <div class="col-sm-3 sidenav" style="height: 900px;">
+                    <h2>Student Dashboard</h2>
+                    <p>Username: {{ user.username }}</p>
+                    <p>Email: {{ user.email }}</p>
+                    <p>Name: {{ user.firstName }} {{ user.lastName }}</p>
+                    <p>Role: {{ user.role }}</p>
+                </div>
+
+                <!-- Right Column -->
+                <div class="col-sm-9" style="background-color: white;">
+                    <p>Courses:</p>
+                    {{#each user.courses}}
+                        <div class="my-2 p-2 border bg-light rounded shadow">
+                            <h3>{{this.name}}</h3>
+                            <p>{{this.description}}</p>
+                            <a class="btn btn-dark" href="/courses/{{this._id}}">Learn More</a>
+                        </div>
+                    {{/each}}
+                </div>
             </div>
-        {{/each}}
+        </div>
     {{/if}}
 </div>
