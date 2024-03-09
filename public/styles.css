@@ -73,5 +73,32 @@ h1, h2, h3, h4, h5, h6 {
     color: #ffffff; /* white */
 }
 
+
+.row.content {height: 600px}
+.sidenav {
+    background-color: #f1f1f1;
+    height: 100%;
+  }
+/* Set black background color, white text and some padding */
+footer {
+    background-color: #555;
+    color: white;	  
+    position: relative;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 1rem;
+    text-align: center;
+  }
+
+  /* On small screens, set height to 'auto' for sidenav and grid */
+  @media screen and (max-width: 767px) {
+    .sidenav {
+      height: auto;
+      padding: 15px;
+    }
+    .row.content {height: auto;}
+  }
+  
 /*End Home Page*/
 /*End Pages*/
