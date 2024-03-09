@@ -8,7 +8,7 @@ const dashboardController = {
         } else {
             const navigationItems = [
                 { label: 'Home', url: '#' },
-                { label: 'Enroll Course', url: '/dashboard/enroll' },
+                { label: 'Enroll Course', url: '/enroll' },
                 { label: 'Drop Course', url: '/dashboard/dropCourse' },
                 { label: 'Enrolled Courses', url: '/dashboard/schedule' },
                 { label: 'Course Cart', url: '/dashboard/cart' },
