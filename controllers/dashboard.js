@@ -14,11 +14,11 @@ const dashboardController = {
                 { label: 'Course Cart', url: '/dashboard/cart' },
                 { label: 'Logout', url: '/dashboard/logout' },
             ];
-
             res.render('dashboard', {
                 user,
                 isInstructor: user.role === 'instructor',
                 navigationItems,
+                
             });
         }
     },

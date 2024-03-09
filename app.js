@@ -77,9 +77,6 @@ app.delete('/courses/:id', (req, res) => {
       });
   });
 
-  app.get('/', (req, res) => {
-    res.redirect('/dashboard/enroll');
-  }); 
 
-
-app.listen(port, () => console.log(`Server is running on port ${port}`))
+  const port = process.env.PORT || 5555;
+app.listen(port, () => console.log(`Server is running on port ${port}`));
