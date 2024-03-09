@@ -1,5 +1,6 @@
 const mongoose = require('mongoose'),
-      bcrypt = require('bcrypt')
+      bcrypt = require('bcrypt'),
+      { getCourses } = require('./courses')
 
 const userSchema = new mongoose.Schema({
     firstName: {
@@ -46,10 +47,23 @@ const getUser = async (username, email) => {
     console.log('Username, email: ', username, email)
     try {
         user = await User.findOne(username ? { username } : { email })
+        if(user?.courses?.length) {
+            console.log('User: ', user)
+            const courses = []
+            for(const courseId of user.courses) {
+                const course = await getCourses(courseId)
+                courses.push(course[0])
+                console.log('Courses.length: ', courses.length)
+            }
+            console.log('Courses: ', courses)
+            user.courses = courses
+        }
+        console.log('User: ', user)
         console.log('User in model: ', user)
     } catch(err) {
         console.error(`ERROR GETTING USER: ${err}`)
     }
+    console.log('Final user: ', user)
     return user
 }
 
@@ -98,9 +112,10 @@ const updateUserCourses = async (courseId, user, isAdding) => {
     let success = false
     if(!courseId || !user) return success
     try {
-        const action = isAdding ? { $push: { courses: courseId } } : { $pull: { courses: courseId } }
-        const { username } = user
-        const dbReq = await User.findOneAndUpdate(username, action, { new: true })
+        const action = isAdding ? { $addToSet: { courses: courseId } } : { $pull: { courses: courseId } }
+        const { _id } = user
+        const dbReq = await User.findOneAndUpdate({ _id: _id }, action, { new: true })
+        console.log('DB REQ: ', dbReq)
         if(dbReq) success = true
     } catch(err) {
         console.error(`ERROR ADDING COURSE TO USER: ${err}`)

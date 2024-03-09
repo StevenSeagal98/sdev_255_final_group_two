@@ -15,36 +15,13 @@
         <p>Email: {{ user.email }}</p>
         <p>Name: {{ user.firstName }} {{ user.lastName }}</p>
         <p>Role: {{ user.role }}</p>
-        <p>Courses:</p>
-            <div class="col-sm-3 sidenav" style="height: 900px";>
-                <ul class="nav flex-column">
-                    <li class="active"><a href="#">Home</a></li>
-                    <li class="nav-item"><a href="enroll.hbs">Enroll Course</a></li>
-                    <li class="nav-item">
-                    <a class="nav-link" href="enroll.hbs">Register</a>
-                </li>
-                    <li class="nav-item"><a href="dropCourse.hbs">Drop Course</a></li>
-                    <li class="nav-item"><a href="schedule.hbs">Enrolled Courses</a></li>
-                    <li class="nav-item"><a href="cart.hbs">Course Cart</a></li>
-                    <li class="nav-item"><a href="logout.hbs">Logout</a></li>
-                </ul>
+        <p>Courses: </p>
+                {{#each user.courses}}
+            <div class="my-2 p-2 border bg-light rounded shadow">
+                <h3>{{this.name}}</h3>
+                <p>{{this.description}}</p>
+                <a class="btn btn-dark" href="/courses/{{this._id}}">Learn More</a>
             </div>
-            <div class="col-sm-9" style="background-color: white;">
-                <br><br>
-                <div class="container" style="width: 100%;">
-                    <table id="theTable" class="display">
-                        <thead>
-                            <tr>
-                                <th class="col-5">Course Id</th>
-                                <th class="col-5">Course Name</th>
-                                <th class="col-5">Description</th>
-                                <th class="col-5">Status</th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
-                <br><br>
-            </div>
-        </div>
-    </div>
+        {{/each}}
+    {{/if}}
 </div>

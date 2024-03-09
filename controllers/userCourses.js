@@ -7,15 +7,15 @@ const userCoursesController = {
             const user = req.session?.user
             const courseId = req.body?.courseId
             const isAdding = req.body?.isAdding || false
-            console.log('User, courseId, isAdding: ', user, courseId, isAdding)
             if(!user || !courseId) {
-                return res.redirect('/courses', { errMessage: 'Please log in to add or remove a course' })
+                return res.render('/courses', { errMessage: 'Please log in to add or remove a course' })
             }
             success = await updateUserCourses(courseId, user, isAdding)
+            console.log('Success: ', success)
         } catch(err) {
             console.error(`ERROR UPDATING USER COURSES IN CONTROLLER: ${err}`)
         }
-        return success ? res.redirect('/courses') : res.redirect('/courses', { errMessage: 'Error updating user courses' })
+        return success ? res.redirect('/courses') : res.render('courses')
     }
 }
 

@@ -8,7 +8,6 @@ router.use('/logout', require('./logout'))
 router.use('/register', require('./register'))
 router.use('/dashboard', require('./dashboard'))
 router.use('/user-courses', require('./userCourses'))
-router.use('/enroll', require('./enroll'))
-router.use('/dropCourse', require('./dropCourse.hbs'))
+router.use((req, res) => res.status(404).render('404'))
 
 module.exports = router
