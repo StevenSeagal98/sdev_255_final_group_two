@@ -78,10 +78,5 @@ app.delete('/courses/:id', (req, res) => {
   });
 
 
-<<<<<<< HEAD
-  const port = process.env.PORT || 5555;
-app.listen(port, () => console.log(`Server is running on port ${port}`));
-=======
-const port = process.env.PORT || 5555
+const port = process.env.PORT || 5555;
 app.listen(port, () => console.log(`Server is running on port ${port}`))
->>>>>>> 3d1b11203ab6b08843d6f8e09aea420c7ebb72be
