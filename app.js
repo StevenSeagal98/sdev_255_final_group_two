@@ -51,7 +51,7 @@ app.use(session({
         maxAge: 1000 * 60 * 60 * 24 // 1 day
     }
 }))
-
+app.use(express.json())
 //Routes
 app.use('/', require('./routes'))
 app.post('/courses', (req, res) => {
@@ -78,5 +78,10 @@ app.delete('/courses/:id', (req, res) => {
   });
 
 
+<<<<<<< HEAD
   const port = process.env.PORT || 5555;
 app.listen(port, () => console.log(`Server is running on port ${port}`));
+=======
+const port = process.env.PORT || 5555
+app.listen(port, () => console.log(`Server is running on port ${port}`))
+>>>>>>> 3d1b11203ab6b08843d6f8e09aea420c7ebb72be

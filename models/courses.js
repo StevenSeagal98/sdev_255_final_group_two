@@ -88,12 +88,13 @@ const getCourses = async (courseId = null) => {
     } catch(err) {
         console.error(`ERROR GETTING COURSES: ${err}`)
     }
-    return courses.length ? courses.map(course => {
+    const res = courses.length ? courses.map(course => {
         const courseObj = course.toObject()
         courseObj.link = `/courses/${courseObj._id}`
         courseObj.registerLink = `/register/${courseObj._id}`
         return courseObj
     }) : []
+    return res
 }
 
 module.exports = { Course, createCourse, getCourses, updateCourse, deleteCourse }

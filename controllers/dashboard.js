@@ -1,11 +1,11 @@
 // Dashboard controller
 const dashboardController = {
     get: (req, res) => {
-        console.log('Dashboard GET');
-        const user = req.session?.user;
-        if (!user) {
-            return res.redirect('/login');
+        const user = req.session?.user
+        if(!user) {
+            return res.redirect('/login')
         } else {
+<<<<<<< HEAD
             const navigationItems = [
                 { label: 'Home', url: '#' },
                 { label: 'Enroll Course', url: '/enroll' },
@@ -20,6 +20,9 @@ const dashboardController = {
                 navigationItems,
                 
             });
+=======
+            res.render('dashboard', { user, isInstructor: user.role === 'instructor' })
+>>>>>>> 3d1b11203ab6b08843d6f8e09aea420c7ebb72be
         }
     },
     // Define the other controller functions here
