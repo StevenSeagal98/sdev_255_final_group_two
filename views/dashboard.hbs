@@ -12,6 +12,43 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/courses">Courses</a>
                     </li>
+                    <div class="container py-4">
+    {{#if isInstructor}}
+        <div class="container-fluid">
+            <div class="row content">
+                <!-- Left Column -->
+                <div class="col-sm-3 sidenav" style="height: 900px;">
+                    <h2>Instructor Dashboard</h2>
+                    <p>Username: {{ user.username }}</p>
+                    <p>Email: {{ user.email }}</p>
+                    <p>Name: {{ user.firstName }} {{ user.lastName }}</p>
+                    <p>Role: {{ user.role }}</p>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/courses">Courses</a>
+                        </li>    
+                        <li class="nav-item">
+                            <a href="/add-course" class="nav-link">Add Course</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/logout" class="nav-link">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Right Column -->
+                <div class="col-sm-9" style="background-color: white;">
+                    <h2>Enrolled students:</h2>
+                    {{#each user.courses}}
+                        <div class="my-2 p-2 border bg-light rounded shadow">
+                            <p class="lead">{{this.name}}</p>
+                            <p>{{this.description}}</p>
+                            <button class="btn btn-danger drop-course">Drop Course</button>
+                        </div>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
                     <li class="nav-item">
                         <a class="nav-link" href="/cart">Cart</a>
                     </li>
