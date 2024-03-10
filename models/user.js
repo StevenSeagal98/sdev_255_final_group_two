@@ -47,10 +47,14 @@ const getUser = async (username, email) => {
             const courses = []
             for(const courseId of user.courses) {
                 const course = await getCourses(courseId)
+                if(course.length) courses.push(course[0])
                 courses.push(course[0])
             }
             console.log('Courses: ', courses)
             user.courses = courses
+        }
+        if(user.role === 'instructor') {
+            user.courses = await getCourses(null, user._id)
         }
     } catch(err) {
         console.error(`ERROR GETTING USER: ${err}`)

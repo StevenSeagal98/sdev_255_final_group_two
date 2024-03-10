@@ -1,6 +1,7 @@
-const { get } = require('../controllers/cart');
-const cartRouter = require('express').Router();
+const router = require('express').Router()
+const { get, post } = require('../controllers/cart')
 
-cartRouter.get('/', get);
+router.get('/', get)
+router.post('/', post)
 
-module.exports = cartRouter;
+module.exports = router

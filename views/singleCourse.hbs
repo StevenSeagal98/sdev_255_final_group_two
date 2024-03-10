@@ -1,18 +1,16 @@
 <main class="container">
     <h1>Single Course</h1>
+    {{!-- Enrolled in course: {{enrolledInCourse}}
+    In Cart: {{courseInCart}} --}}
     <section class="card shadow p-2 my-2 col-12 courses-card">
         <p id="id" data-doc="{{ user?._id }}"></p>
         <h3>{{course.name}}</h3>
         <p>{{course.description}}</p>
         <p>Subject Area: {{course.subjectArea}}</p>
         <p>Credits: {{course.credits}}</p>
-      {{#if isInstructor}}
-        Instructor
-        <a class="btn btn-warning update" href="/courses/{{course._id}}?updating=true">Update Course</a>
-        <button id="delete-course" class="btn btn-danger delete" data-doc="{{course._id}}">Delete</button>
-      {{else if isStudent}}
-      {{!-- <a class="btn btn-primary" href="/users/add-course/{{this._id}}">Enroll</a> --}}
-      <button class="btn btn-success" id="register-btn" data-doc="{{user._id}}">Enroll</button>
+        <p>Instructor: {{course.instructor.firstName}} {{course.instructor.lastName}}</p>
+      {{#if isStudent}}
+        <button class="btn btn-success add-to-cart-btn" data-doc="{{course._id}}">Add To Cart</button>
       {{/if}}
       <a href="/courses">All Courses</a>
     </section>
@@ -21,81 +19,19 @@
 </main>
 
 <script>
-  const registerBtn = document.querySelector('#register-btn')
-  const userId = registerBtn.dataset.doc
-  const courseId = window.location.pathname.split('/')[2]
-
-  registerBtn.addEventListener('click', async () => await addCourseToStudentRecord(courseId))
-
-  const addCourseToStudentRecord = async (courseId) => {
-    try {
+  document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+    btn.addEventListener('click', async (e) => {
+      e.preventDefault()
       const options = { 
         method: 'POST', 
-        body: JSON.stringify({ courseId: courseId, isAdding: true }),
+        body: JSON.stringify({
+          itemToUpdate: btn.dataset.doc,
+          cartAction: 'add'
+        }),
         headers: { 'Content-Type': 'application/json' }
       }
-      const response = await fetch(`/user-courses`, options)
-    } catch (err) {
-      console.error(err)
-    }
-  }
-</script>
-<script>
-document.getElementById('update-form').addEventListener('submit', async e => {
-    e.preventDefault();
-    try {
-        const formData = new URLSearchParams();
-        formData.append('id', document.getElementById('course-id').value);
-        formData.append('name', document.getElementById('name').value);
-        formData.append('description', document.getElementById('description').value);
-        formData.append('area', document.getElementById('area').value);
-        formData.append('credits', document.getElementById('credits').value);
-
-        const response = await fetch('/courses', { 
-            method: 'PUT', 
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: formData
-        });
-
-        if (response.ok) {
-            alert('Course updated successfully!');
-            setTimeout(() => window.location.href = '/courses', 1000);
-        } else {
-            throw new Error('Failed to update the course');
-        }
-    } catch(err) {
-        console.error(`ERROR SUBMITTING UPDATE FORM: ${err}`);
-        alert(`Error updating course: ${err.message}`);
-    }
-});
-</script>
-<script>
-const deleteBtn = document.getElementById('delete-course');
-
-if(deleteBtn) {
-    deleteBtn.addEventListener('click', async (e) => {
-        e.preventDefault();
-        if (!confirm('Are you sure you want to delete this course?')) {
-            return;
-        }
-        try {
-            const courseId = e.target.getAttribute('data-doc'); 
-            const response = await fetch(`/courses/${courseId}`, {
-                method: 'DELETE'
-            });
-
-            if (response.ok) {
-                alert('Course deleted successfully!');
-                setTimeout(() => window.location.href = '/courses', 1000);
-            } else {
-                throw new Error('Failed to delete the course');
-            }
-        } catch (err) {
-            console.error(`ERROR DELETING COURSE: ${err}`);
-            alert(`Error deleting course: ${err.message}`);
-        }
-    });
-}
+      console.log('options', options)
+      await fetch(`/cart`, options)
+    })
+  })
 </script>
