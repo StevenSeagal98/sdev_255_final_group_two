@@ -3,9 +3,9 @@
     <div class="container">
         <h1>Log In</h1>
         <form action="/login" method="POST">
-            {{#if errorMessage}}
+            {{#if errMessage}}
                 <div class="alert alert-danger col-12 rounded p-2 m-2" role="alert">
-                    {{errorMessage}}
+                    {{errMessage}}
                 </div>
             {{/if}}
             <div class="form-group">

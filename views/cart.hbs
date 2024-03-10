@@ -2,11 +2,6 @@
     <div class="row content">
         <!-- Left Column -->
         <div class="col-sm-3 sidenav">
-            <h2>Student Dashboard</h2>
-            <p>Username: {{ user.username }}</p>
-            <p>Email: {{ user.email }}</p>
-            <p>Name: {{ user.firstName }} {{ user.lastName }}</p>
-            <p>Role: {{ user.role }}</p>
             <ul class="nav flex-column">
                 <li class="nav-item">
                     <a href="#" id="enroll-all" class="nav-link">Enroll All</a>
@@ -28,7 +23,7 @@
 
         <!-- Right Column -->
         <div class="col-sm-9 bg-white">
-            <h2>Enrolled Courses:</h2>
+            <h2>Your Cart:</h2>
             {{#each cart}}
                 <div class="my-2 p-2 border bg-light rounded shadow">
                     <h3>{{name}}</h3>
