@@ -31,7 +31,7 @@ const controller = {
                 }
                 break
             case 'remove':
-                cart = cart.filter(({ _id }) => _id != itemToUpdate._id)
+                cart = cart.filter(({ _id }) => _id != itemToUpdate)
                 success = true
                 console.log('Hit remove: ', cart)
                 break

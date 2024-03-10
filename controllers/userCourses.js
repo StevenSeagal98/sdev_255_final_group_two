@@ -2,11 +2,13 @@ const { updateUserCourses } = require('../models/user')
 
 const userCoursesController = {
     post: async (req, res) => {
+        console.log('Hit user courses route')
         let success = false
         try {
             const user = req.session?.user
             const courseId = req.body?.courseId
             const isAdding = req.body?.isAdding || false
+            console.log('User: ', user, 'Course id: ', courseId, 'isAdding: ', isAdding)
             if(!user || !courseId) {
                 return res.render('courses', { errMessage: 'Please log in to add or remove a course' })
             }

@@ -106,6 +106,7 @@ const createUser = async (userData) => {
 }
 
 const updateUserCourses = async (courseId, user, isAdding) => {
+    console.log('Course id: ', courseId, 'User: ', user, 'isAdding: ', isAdding)
     let updateObj = null
     if(!courseId || !user) return success
     try {
