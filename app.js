@@ -59,6 +59,20 @@ app.use(express.json())
 //       })
 // })
 
+app.get('/update-course/:id', async (req, res) => {
+  try {
+      const courseId = req.params.id;
+      const course = await Course.findById(courseId); 
+      if (!course) {
+          return res.status(404).send('Course not found');
+      }
+      res.render('updateCourse', { course: course.toObject() }); 
+  } catch (err) {
+      console.error(err);
+      res.status(500).send('Server error');
+  }
+});
+
 app.delete('/courses/:id', (req, res) => {
   const id = req.params.id
   
@@ -80,4 +94,3 @@ app.get('/', (req, res) => {
 
 const port = process.env.PORT || 5555
 app.listen(port, () => console.log(`Server is running on port ${port}`))
-
