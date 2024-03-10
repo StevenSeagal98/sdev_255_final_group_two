@@ -9,7 +9,7 @@
         <p>Subject Area: {{course.subjectArea}}</p>
         <p>Credits: {{course.credits}}</p>
         <p>Instructor: {{course.instructor.firstName}} {{course.instructor.lastName}}</p>
-      {{if isStudent}}
+      {{#if isStudent}}
         <button class="btn btn-success add-to-cart-btn" data-doc="{{course._id}}">Add To Cart</button>
       {{/if}}
       <a href="/courses">All Courses</a>

@@ -59,6 +59,7 @@ const courseAction = async (courseId, action) => {
 
 document.querySelectorAll('.delete-course').forEach(btn => {
     btn.addEventListener('click', async (e) => {
+        console.log('Deleting course: ', btn.dataset.doc)
         e.preventDefault()
         console.log('Deleting course: ', btn.dataset.doc)
         const success = await courseAction(btn.dataset.doc, 'delete')

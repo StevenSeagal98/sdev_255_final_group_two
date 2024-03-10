@@ -43,7 +43,7 @@ app.use(session({
     saveUninitialized: false,
     store,
     cookie: {
-        maxAge: 1000 * 60 * 60 * 24 // 1 day
+        maxAge: 1000 * 60 * 60 * 24
     }
 }))
 app.use(express.json())
@@ -59,23 +59,22 @@ app.use(express.json())
 //       })
 // })
 
-app.delete('/courses/:id', (req, res) => {
-  const id = req.params.id
+// app.delete('/courses/:id', (req, res) => {
+//   const id = req.params.id
   
-  Course.findByIdAndDelete(id)
-    .then(result => {
-      res.json({ redirect: '/courses' });
-    })
-    .catch(err => {
-      console.log(err);
-    })
-})
+//   Course.findByIdAndDelete(id)
+//     .then(result => {
+//       res.json({ redirect: '/courses' });
+//     })
+//     .catch(err => {
+//       console.log(err);
+//     })
+// })
 app.use('/', require('./routes'))
 
-
-app.get('/', (req, res) => {
-  res.redirect('/dashboard/enroll')
-})
+// app.get('/', (req, res) => {
+//   res.redirect('/dashboard/enroll')
+// })
 
 const port = process.env.PORT || 5555
 app.listen(port, () => console.log(`Server is running on port ${port}`))
