@@ -8,9 +8,11 @@ const userCoursesController = {
             const courseId = req.body?.courseId
             const isAdding = req.body?.isAdding || false
             if(!user || !courseId) {
-                return res.render('/courses', { errMessage: 'Please log in to add or remove a course' })
+                return res.render('courses', { errMessage: 'Please log in to add or remove a course' })
             }
             success = await updateUserCourses(courseId, user, isAdding)
+            console.log('Updated user obj: ', success)
+            if(success) req.session.user = success
             console.log('Success: ', success)
         } catch(err) {
             console.error(`ERROR UPDATING USER COURSES IN CONTROLLER: ${err}`)

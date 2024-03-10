@@ -1,39 +1,18 @@
-// Dashboard controller
+const { getUser } = require('../models/user')
+
 const dashboardController = {
-    get: (req, res) => {
+    get: async (req, res) => {
         const user = req.session?.user
         if(!user) {
             return res.redirect('/login')
         } else {
-            const navigationItems = [
-                { label: 'Home', url: '#' },
-                { label: 'Enroll Course', url: '/enroll' },
-                { label: 'Drop Course', url: '/dashboard/dropCourse' },
-                { label: 'Enrolled Courses', url: '/dashboard/schedule' },
-                { label: 'Course Cart', url: '/dashboard/cart' },
-                { label: 'Logout', url: '/dashboard/logout' },
-            ];
-            res.render('dashboard', {
-                user,
-                isInstructor: user.role === 'instructor',
-                navigationItems,
-                
-            });
+            console.log('User.courses: ', JSON.stringify(user.courses))
+            const newUser = await getUser(null, user.email)
+            console.log(newUser.courses)
+            req.session.user.courses = newUser.courses
+            res.render('dashboard', { user, isInstructor: user.role === 'instructor' })
         }
-    },
-    // Define the other controller functions here
-    enroll: (req, res) => {
-        // Your code here
-    },
-    dropCourse: (req, res) => {
-        // Your code here
-    },
-    logout: (req, res) => {
-        // Your code here
-    },
-};
+    }
+}
 
-module.exports = dashboardController;
-
-
-
+module.exports = dashboardController

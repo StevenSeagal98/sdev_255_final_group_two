@@ -36,39 +36,36 @@ const userSchema = new mongoose.Schema({
     }
 })
 
-// Courses added to student
-// Protect routes based on role
-
 const User = mongoose.model('User', userSchema)
 
 const getUser = async (username, email) => {
     let user = null
     if(!username && !email) return user
-    console.log('Username, email: ', username, email)
     try {
         user = await User.findOne(username ? { username } : { email })
         if(user?.courses?.length) {
-            console.log('User: ', user)
             const courses = []
             for(const courseId of user.courses) {
                 const course = await getCourses(courseId)
+                if(course.length) courses.push(course[0])
                 courses.push(course[0])
-                console.log('Courses.length: ', courses.length)
             }
             console.log('Courses: ', courses)
             user.courses = courses
         }
-        console.log('User: ', user)
-        console.log('User in model: ', user)
+        if(user.role === 'instructor') {
+            user.courses = await getCourses(null, user._id)
+        }
     } catch(err) {
         console.error(`ERROR GETTING USER: ${err}`)
     }
-    console.log('Final user: ', user)
+    console.log('User in model: ', user)
     return user
 }
 
 const createUser = async (userData) => {
-    let success = false, errMessage = 'User already exists, please try again.'
+    let success = false, 
+        errMessage = 'User already exists, please try again.'
     const {
         username = null,
         password = null,
@@ -109,18 +106,22 @@ const createUser = async (userData) => {
 }
 
 const updateUserCourses = async (courseId, user, isAdding) => {
-    let success = false
+    let updateObj = null
     if(!courseId || !user) return success
     try {
         const action = isAdding ? { $addToSet: { courses: courseId } } : { $pull: { courses: courseId } }
         const { _id } = user
         const dbReq = await User.findOneAndUpdate({ _id: _id }, action, { new: true })
-        console.log('DB REQ: ', dbReq)
-        if(dbReq) success = true
+        if(dbReq) {
+            console.log('Updated user req: ', dbReq)
+            const newUserRecord = await getUser(null, user.email)
+            console.log('New user record: ', newUserRecord)
+            updateObj = newUserRecord
+        }
     } catch(err) {
         console.error(`ERROR ADDING COURSE TO USER: ${err}`)
     }
-    return success
+    return updateObj
 }
 
 const deleteAllUsers = async () => {

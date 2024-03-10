@@ -16,16 +16,20 @@ const courseSchema = new Schema({
     credits: {
         type: Number,
         required: true
+    },
+    instructor: {
+        type: Object,
+        required: false
     }
 })
 
 const Course = model('Course', courseSchema)
 
-const createCourse = async (data) => {
+const createCourse = async (data, instructor) => {
     let success = false
     const { name, description, subjectArea, credits } = data
     if(![name, description, subjectArea, credits].every(prop => prop || prop === 0)) return success
-    const course = new Course({ name, description, subjectArea, credits })
+    const course = new Course({ name, description, subjectArea, credits, instructor })
     try {
         const res = await course.save()
         if(res) success = true
@@ -66,24 +70,30 @@ const updateCourse = async (data) => {
 }
 
 const deleteCourse = async (courseId) => {
-    let success = false;
-    if (!courseId) return success;
+    let success = false
+    if (!courseId) return success
     try {
-        const result = await Course.findByIdAndDelete(courseId);
-        if (result) success = true;
+        const result = await Course.findByIdAndDelete(courseId)
+        if(result) success = true
     } catch (err) {
         console.error(`ERROR DELETING COURSE: ${err}`);
     }
     return success;
 }
 
-const getCourses = async (courseId = null) => {
+const getCourses = async (courseId = null, instructorId = null) => {
     let courses = []
+    console.log('Course id: ', courseId, ' Instructor id: ', instructorId)
     try {
         if(typeof courseId == 'string') {
             courses.push(await Course.findOne({ _id: courseId }))
         } else {
-            courses.push(...await Course.find())
+            const coursesQuery = await Course.find()
+            if(instructorId) {
+                courses.push(...coursesQuery.filter(course => JSON.stringify(course).includes(instructorId)))
+            } else {
+                courses.push(...await Course.find())
+            }
         }
     } catch(err) {
         console.error(`ERROR GETTING COURSES: ${err}`)

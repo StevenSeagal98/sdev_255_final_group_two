@@ -79,3 +79,14 @@ h1, h2, h3, h4, h5, h6 {
 }
 /*End Home Page*/
 /*End Pages*/
+
+ /* Set height of the grid so .sidenav can be 100% (adjust if needed) */
+ .row.content {min-height: 100vh}
+
+ /* Set gray background color and 100% height */
+ .sidenav {
+   background-color: #f1f1f1;
+   min-height: 100vh;
+ }
+
+ 

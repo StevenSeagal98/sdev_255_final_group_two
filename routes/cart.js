@@ -1,6 +1,7 @@
-const { get } = require('../controllers/enroll')
-const dashboardRouter = require('express').Router()
+const router = require('express').Router()
+const { get, post } = require('../controllers/cart')
 
-dashboardRouter.get('/', get)
+router.get('/', get)
+router.post('/', post)
 
-module.exports = dashboardRouter
+module.exports = router
