@@ -66,6 +66,7 @@
     document.querySelectorAll('.remove-btn').forEach(btn => {
         btn.addEventListener('click', async (e) => {
             e.preventDefault()
+            console.log('Removing: ', btn.dataset.doc)
             await cartAction('remove', btn.dataset.doc)
         })
     })
