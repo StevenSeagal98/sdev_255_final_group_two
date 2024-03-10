@@ -77,8 +77,7 @@ app.get('/', (req, res) => {
   res.redirect('/dashboard/enroll')
 })
 
+
 const port = process.env.PORT || 5555
 app.listen(port, () => console.log(`Server is running on port ${port}`))
 
-app.set('view engine', 'hbs');
-app.set('views', path.join(__dirname, 'views'));
