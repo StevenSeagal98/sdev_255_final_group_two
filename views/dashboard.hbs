@@ -1,18 +1,4 @@
 <div class="container py-4">
-    <div class="container-fluid">
-        <div class="row content">
-            <!-- Left Column -->
-            <div class="col-sm-3 sidenav" style="height: 900px;">
-                <h2>Student Dashboard</h2>
-                <p>Username: {{ user.username }}</p>
-                <p>Email: {{ user.email }}</p>
-                <p>Name: {{ user.firstName }} {{ user.lastName }}</p>
-                <p>Role: {{ user.role }}</p>
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/courses">Courses</a>
-                    </li>
-                    <div class="container py-4">
     {{#if isInstructor}}
         <div class="container-fluid">
             <div class="row content">
@@ -49,35 +35,42 @@
                 </div>
             </div>
         </div>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/cart">Cart</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/logout" class="nav-link">Logout</a>
-                    </li>
-                    
-                </ul>
-            </div>
+    {{else}}
+        <div class="container-fluid">
+            <div class="row content">
+                <!-- Left Column -->
+                <div class="col-sm-3 sidenav" style="height: 900px;">
+                    <h2>User Dashboard</h2>
+                    <p>Username: {{ user.username }}</p>
+                    <p>Email: {{ user.email }}</p>
+                    <p>Name: {{ user.firstName }} {{ user.lastName }}</p>
+                    <p>Role: {{ user.role }}</p>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/cart">Cart</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/logout" class="nav-link">Logout</a>
+                        </li>
+                    </ul>
+                </div>
 
-            <!-- Right Column -->
-            <div class="col-sm-9" style="background-color: white;">
-                <h2>Enrolled Courses:</h2>
-                {{#each user.courses}}
-                    <div class="my-2 p-2 border bg-light rounded shadow">
-                        <h3>{{name}}</h3>
-                        <p>{{description}}</p>
-                        {{#if ../isInstructor}}
-                            <a class="update-course btn btn-warning" href="/courses/{{_id}}?updating=true">Update Course</a>
-                            <button class="btn btn-danger delete-course" data-doc="{{_id}}">Delete Course</button>
-                        {{else}}
+                <!-- Right Column -->
+                <div class="col-sm-9" style="background-color: white;">
+                    <h2>Enrolled Courses:</h2>
+                    {{#each user.courses}}
+                        <div class="my-2 p-2 border bg-light rounded shadow">
+                            <h3>{{name}}</h3>
+                            <p>{{description}}</p>
                             <button class="btn btn-danger drop-course" data-doc="{{_id}}">Drop Course</button>
-                        {{/if}}
-                    </div>
-                {{/each}}
+                        </div>
+                    {{/each}}
+                </div>
             </div>
         </div>
-    </div>
+    {{/if}}
 </div>
+
 <script>
 const courseAction = async (courseId, action) => {
     console.log('Course id: ', courseId, ' action: ', action)
@@ -108,20 +101,21 @@ document.querySelectorAll('.delete-course').forEach(btn => {
     btn.addEventListener('click', async (e) => {
         console.log('Deleting course: ', btn.dataset.doc)
         e.preventDefault()
-        console.log('Deleting course: ', btn.dataset.doc)
         const success = await courseAction(btn.dataset.doc, 'delete')
-        console.log('Success: ', success)
-        window.location.reload()
+        if(success) {
+            btn.parentElement.remove()
+        }
     })
 })
 
 document.querySelectorAll('.drop-course').forEach(btn => {
     btn.addEventListener('click', async (e) => {
-        e.preventDefault()
         console.log('Dropping course: ', btn.dataset.doc)
+        e.preventDefault()
         const success = await courseAction(btn.dataset.doc, 'drop')
-        console.log('Success: ', success)
-        window.location.reload()
+        if(success) {
+            btn.parentElement.remove()
+        }
     })
 })
 </script>
