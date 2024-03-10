@@ -1,40 +1,35 @@
 <main class="container">
     <h1>Single Course</h1>
+    {{!-- Enrolled in course: {{enrolledInCourse}}
+    In Cart: {{courseInCart}} --}}
     <section class="card shadow p-2 my-2 col-12 courses-card">
         <p id="id" data-doc="{{ user?._id }}"></p>
         <h3>{{course.name}}</h3>
         <p>{{course.description}}</p>
         <p>Subject Area: {{course.subjectArea}}</p>
         <p>Credits: {{course.credits}}</p>
-      {{#if isInstructor}}
-        Instructor
-        <a class="btn btn-warning update" href="/courses/{{this._id}}?updating=true">Update Course</a>
-        <a class="btn btn-danger delete" href="#" data-doc="{{this._id}}">Delete</a>
-      {{else if isStudent}}
-      {{!-- <a class="btn btn-primary" href="/users/add-course/{{this._id}}">Enroll</a> --}}
-      <button class="btn btn-success" id="register-btn" data-doc="{{user._id}}">Enroll</button>
+        <p>Instructor: {{course.instructor.firstName}} {{course.instructor.lastName}}</p>
+      {{if isStudent}}
+        <button class="btn btn-success add-to-cart-btn" data-doc="{{course._id}}">Add To Cart</button>
       {{/if}}
       <a href="/courses">All Courses</a>
     </section>
 </main>
 
 <script>
-  const registerBtn = document.querySelector('#register-btn')
-  const userId = registerBtn.dataset.doc
-  const courseId = window.location.pathname.split('/')[2]
-
-  registerBtn.addEventListener('click', async () => await addCourseToStudentRecord(courseId))
-
-  const addCourseToStudentRecord = async (courseId) => {
-    try {
+  document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+    btn.addEventListener('click', async (e) => {
+      e.preventDefault()
       const options = { 
         method: 'POST', 
-        body: JSON.stringify({ courseId: courseId, isAdding: true }),
+        body: JSON.stringify({
+          itemToUpdate: btn.dataset.doc,
+          cartAction: 'add'
+        }),
         headers: { 'Content-Type': 'application/json' }
       }
-      const response = await fetch(`/user-courses`, options)
-    } catch (err) {
-      console.error(err)
-    }
-  }
+      console.log('options', options)
+      await fetch(`/cart`, options)
+    })
+  })
 </script>

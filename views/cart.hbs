@@ -1,0 +1,68 @@
+<h1>Your cart</h1>
+
+<div class="mx-auto col-md-6 col-12 d-flex justify-content-between align-items-center flex-wrap">
+    <button class="btn btn-dark" id="enroll-all">Enroll All</button>
+    <button class="btn btn-danger" id="clear-cart">Clear Cart</button>
+</div>
+
+{{#each cart}}
+    <div class="cart-item card shadow my-2 p-2">
+        <div class="card-header">
+            <h2>{{name}}</h2>
+        </div>
+        <div class="card-body">
+            <p>Subject Area: {{subjectArea}}</p>
+            <p>Credits: {{credits}}</p>
+            <p>Description: {{description}}</p>
+            <button class="btn btn-success enroll-btn" data-doc="{{_id}}">Enroll</button>
+            <button class="btn btn-danger remove-btn" data-doc="{{_id}}">Remove</button>
+        </div>
+    </div>
+{{/each}}
+
+<script>
+    document.querySelectorAll('.enroll-btn').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+            e.preventDefault()
+            await cartAction('enroll', btn.dataset.doc)
+        })
+    })
+    document.querySelectorAll('.remove-btn').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+            e.preventDefault()
+            await cartAction('remove', btn.dataset.doc)
+        })
+    })
+    document.getElementById('enroll-all').addEventListener('click', async (e) => {
+        e.preventDefault()
+        await cartAction('enrollAll', null)
+    })
+    document.getElementById('clear-cart').addEventListener('click', async (e) => {
+        e.preventDefault()
+        await cartAction('removeAll', null)
+    })
+
+    const cartAction = async (action, id) => {
+        console.log('Cart action: ', action, id)
+        const actions = {
+            enroll: 'enrollSingle',
+            remove: 'remove',
+            enrollAll: 'enrollAll',
+            removeAll: 'clear'
+        }
+        const chosenAction = actions[action]
+        if(!chosenAction) return
+        const options = { 
+            method: 'POST', 
+            body: JSON.stringify({
+                itemToUpdate: id,
+                cartAction: chosenAction
+            }),
+            headers: { 'Content-Type': 'application/json' }
+        }
+        console.log('Options: ', options)
+        const cartUpdateReq = await fetch('/cart', options)
+        console.log('Cart update req: ', cartUpdateReq)
+        window.location.reload()
+    }
+</script>
