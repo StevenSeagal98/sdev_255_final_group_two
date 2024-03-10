@@ -9,6 +9,12 @@
             <p>Role: {{ user.role }}</p>
             <ul class="nav flex-column">
                 <li class="nav-item">
+                    <a href="#" id="enroll-all" class="nav-link">Enroll All</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" id="clear-cart">Clear Cart</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="/courses">Courses</a>
                 </li>
                 <li class="nav-item">
@@ -23,21 +29,76 @@
         <!-- Right Column -->
         <div class="col-sm-9 bg-white">
             <h2>Enrolled Courses:</h2>
-            {{#each user.courses}}
+            {{#each cart}}
                 <div class="my-2 p-2 border bg-light rounded shadow">
-                    <h3>{{this.name}}</h3>
-                    <p>{{this.description}}</p>
-                    <a class="btn btn-dark" href="/courses/{{this._id}}">Learn More</a>
+                    <h3>{{name}}</h3>
+                    <p>{{description}}</p>
+                    <button class="btn btn-success enroll-btn" data-doc="{{_id}}">Enroll</button>
+                    <button class="btn btn-danger remove-btn" data-doc="{{_id}}">Remove</button>                
                 </div>
             {{/each}}
         </div>
     </div>
 </div>
 
-<button type="button" class="button button2" onclick="return registerClicked()">Register</button>
+{{!-- {{#each cart}}
+    <div class="cart-item card shadow my-2 p-2">
+        <div class="card-header">
+            <h2>{{name}}</h2>
+        </div>
+        <div class="card-body">
+            <p>Subject Area: {{subjectArea}}</p>
+            <p>Credits: {{credits}}</p>
+            <p>Description: {{description}}</p>
+            <button class="btn btn-success enroll-btn" data-doc="{{_id}}">Enroll</button>
+            <button class="btn btn-danger remove-btn" data-doc="{{_id}}">Remove</button>
+        </div>
+    </div>
+{{/each}} --}}
 
+<script>
+    document.querySelectorAll('.enroll-btn').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+            e.preventDefault()
+            await cartAction('enroll', btn.dataset.doc)
+        })
+    })
+    document.querySelectorAll('.remove-btn').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+            e.preventDefault()
+            await cartAction('remove', btn.dataset.doc)
+        })
+    })
+    document.getElementById('enroll-all').addEventListener('click', async (e) => {
+        e.preventDefault()
+        await cartAction('enrollAll', null)
+    })
+    document.getElementById('clear-cart').addEventListener('click', async (e) => {
+        e.preventDefault()
+        await cartAction('removeAll', null)
+    })
 
-
-
-
-
+    const cartAction = async (action, id) => {
+        console.log('Cart action: ', action, id)
+        const actions = {
+            enroll: 'enrollSingle',
+            remove: 'remove',
+            enrollAll: 'enrollAll',
+            removeAll: 'clear'
+        }
+        const chosenAction = actions[action]
+        if(!chosenAction) return
+        const options = { 
+            method: 'POST', 
+            body: JSON.stringify({
+                itemToUpdate: id,
+                cartAction: chosenAction
+            }),
+            headers: { 'Content-Type': 'application/json' }
+        }
+        console.log('Options: ', options)
+        const cartUpdateReq = await fetch('/cart', options)
+        console.log('Cart update req: ', cartUpdateReq)
+        window.location.reload()
+    }
+</script>
