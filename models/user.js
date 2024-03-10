@@ -47,6 +47,7 @@ const getUser = async (username, email) => {
             const courses = []
             for(const courseId of user.courses) {
                 const course = await getCourses(courseId)
+                if(course.length) courses.push(course[0])
                 courses.push(course[0])
             }
             console.log('Courses: ', courses)

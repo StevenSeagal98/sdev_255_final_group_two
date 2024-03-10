@@ -32,26 +32,37 @@
 </div>
 
 <script>
-    document.getElementById('update-form').addEventListener('submit', async e => {
-        e.preventDefault()
-        console.log('Submitting form')
-        let success = false
-        try {
-            const formData = new URLSearchParams()
-            formData.append('id', document.getElementById('course-id').value)
-            formData.append('name', document.getElementById('name').value)
-            formData.append('description', document.getElementById('description').value)
-            formData.append('area', document.getElementById('area').value)
-            formData.append('credits', document.getElementById('credits').value)
+document.getElementById('update-form').addEventListener('submit', async e => {
+    e.preventDefault();
+    console.log('Submitting form');
+    let success = false;
+    try {
+        const formData = new URLSearchParams();
+        formData.append('id', document.getElementById('course-id').value);
+        formData.append('name', document.getElementById('name').value);
+        formData.append('description', document.getElementById('description').value);
+        formData.append('area', document.getElementById('area').value);
+        formData.append('credits', document.getElementById('credits').value);
 
-            const { status } = await fetch('/courses', { 
-                method: 'PUT', 
-                body: formData
-            })
-            success = status === 200
-        } catch(err) {
-            console.error(`ERROR SUBMITTING UPDATE FORM: ${err}`)
+        const response = await fetch('/courses', { 
+            method: 'PUT', 
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: formData
+        });
+
+        if (response.ok) {
+            success = true;
+            alert('Course updated successfully!'); // success message
+            setTimeout(() => window.location.href = '/courses', 1000); // Redirect after 1 second
+        } else {
+            throw new Error('Failed to update the course');
         }
-        return success
-    })
+    } catch(err) {
+        console.error(`ERROR SUBMITTING UPDATE FORM: ${err}`);
+        alert(`Error updating course: ${err.message}`); // error message
+    }
+    return success;
+});
 </script>

@@ -11,4 +11,5 @@ router.use('/user-courses', require('./userCourses'))
 router.use('/cart', require('./cart'))
 router.use((req, res) => res.status(404).render('404'))
 
+
 module.exports = router
